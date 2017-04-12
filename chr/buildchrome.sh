@@ -1,14 +1,13 @@
+#!/bin/bash
 set -ex
 
 CONFIG_DIR=$1
-
-source $CONFIG_DIR/vars.rc
+source $CONFIG_DIR/vars.sh
 
 cd $PATH_TO_CHROMIUM_SRC_DIR
 
 # Name of output directory
 BUILD_NAME="${BUILD_NAME:-$(basename $CONFIG_DIR)}"
-
 
 export PATH="$PATH_TO_TOOCHAIN_BIN_DIR:${PATH}"
 

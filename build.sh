@@ -1,21 +1,18 @@
 #!/bin/bash
 
-TOP=`dirname "$BASH_SOURCE"`
-cd $TOP
+TOP="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-IMAGE_NAME="comsgn/"
-SYSROOT_URL=""
+IMAGE_NAME="comsgn/mipschrome:latest"
 
-if [ -z `ls chr/chromium/` ]; then
-	mkdir chr/chromium;
+
+if [ ! -d chr/chromium/src ]; then
 	echo "Downloading chromium sources";
 	docker run -it --rm -v $TOP/chr:/chr $IMAGE_NAME /bin/bash -c "cd /chr/chromium && fetch --nohooks chromium"
 fi
-
 
 if [ -z `ls $TOP/chr/sysroots/` ]; then
 	echo "Put sysroot to $TOP/sysroots/";
 	exit 1;
 fi
 
-docker run -it --rm -v $TOP/chr:/chr $IMAGE_NAME /chr/buildchrome.sh configs/56.0.2924.122
+#docker run -it --rm -v $TOP/chr:/chr $IMAGE_NAME /chr/buildchrome.sh configs/56-gcc4.9
