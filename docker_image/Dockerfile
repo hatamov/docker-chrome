@@ -8,7 +8,7 @@ RUN set -ex; \
     git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git /opt/depot_tools && \
     apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         vim htop tree tmux sudo bash-completion apt-utils \
-        ttf-mscorefonts-installer && \
+        ttf-mscorefonts-installer \
         g++-5-multilib-mipsel-linux-gnu \
         gcc-5-multilib-mipsel-linux-gnu \
         libc6-dev-mipsel-cross \
