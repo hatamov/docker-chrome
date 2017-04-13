@@ -1,5 +1,5 @@
 # Tag/branch/hash to buld chromium from
-CHROMIUM_REVISION="56.0.2924.122"
+CHROMIUM_REVISION="54.0.2840.99"
 
 # Path to cross compilation toolchain (inside container)
 # Use gcc 5.4 corss compilation toolchain installed into container
