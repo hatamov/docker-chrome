@@ -3,25 +3,25 @@
 # Structure:
 ```
 .
-├── build.sh
-├── chr        # This dir will be attached as volume to docker container
+├── build.sh            # Main script to build chrome
+├── chr                 # This dir will be attached as volume to the docker container
 │   ├── buildchrome.sh  # This script runs in container and automates build
 │   ├── chromium   
-│   │   └── src    # Chromium source code 
-│   ├── configs    # Configs for building various versions of chrome
-│   │   ├── 56-gcc4.9  
+│   │   └── src         # Chromium source code 
+│   ├── configs         # Configs for building various versions of chrome
+│   │   ├── 56-gcc4.9   
 │   │   ├── 56-gcc5.4
 │   │   └── ....
-│   ├── sysroots   # Must contain sysroots for builds
-│   │   │── baikal-rootfs-chromedeps # must be downloaded manualy
+│   ├── sysroots        # Must contain sysroots for builds
+│   │   │── baikal-rootfs-chromedeps   # must be downloaded manualy
 │   │   └── yocto-fp64-sysroot 
 │   │   └── .....
-│   └── toolchains # Must contain toolchains
+│   └── toolchains      # Must contain toolchains
 │       │── mipsel-gcc4.9-crosstool-ng
 │       │── baikal-gcc5.2
 │       └── .....
 ├── docker_image
-│   └── Dockerfile                          
+│   └── Dockerfile      # Dockerfile for building docker image                  
 └── Readme.md
 ```
 
