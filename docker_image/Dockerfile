@@ -1,6 +1,6 @@
 FROM buildpack-deps:xenial
 
-ARG deps_script_revision="56.0.2924.122"
+ARG DEPS_SCRIPT_REVISION="56.0.2924.122"
 
 RUN set -ex; \
     echo "deb http://archive.ubuntu.com/ubuntu/ xenial multiverse" >> /etc/apt/sources.list && \
@@ -15,11 +15,12 @@ RUN set -ex; \
         linux-libc-dev-mipsel-cross \
         g++-multilib-mipsel-linux-gnu \
         gcc-multilib-mipsel-linux-gnu && \
-    curl "https://chromium.googlesource.com/chromium/src/+/$deps_script_revision/build/install-build-deps.sh?format=TEXT" \
+    curl "https://chromium.googlesource.com/chromium/src/+/$DEPS_SCRIPT_REVISION/build/install-build-deps.sh?format=TEXT" \
         | base64 -d > /tmp/install-build-deps.sh && chmod +x /tmp/install-build-deps.sh && \
     /tmp/install-build-deps.sh --no-prompt --no-syms --no-arm --no-chromeos-fonts --no-nacl && \
     useradd builder -m -s /bin/bash && echo "builder:builder" | chpasswd && \
-    echo "builder ALL = (ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder ;
+    echo "builder ALL = (ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder && \
+    chown -R builder:builder /opt/depot_tools
 
 ENV PATH="$PATH:/opt/depot_tools"
 USER builder

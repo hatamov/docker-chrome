@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -exu
 
 CONFIG_DIR=$1
 source $CONFIG_DIR/vars.sh
@@ -12,7 +12,8 @@ BUILD_NAME="${BUILD_NAME:-$(basename $CONFIG_DIR)}"
 export PATH="$PATH_TO_TOOCHAIN_BIN_DIR:${PATH}"
 
 # Checkout necessary revision
-git checkout "$CHROMIUM_REVISION"
+git checkout "$CHROMIUM_REVISION" -f
+git clean -df
 gclient sync  --with_branch_heads
 
 # Apply patches
