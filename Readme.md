@@ -28,20 +28,21 @@
 # Usage
 
 0. Install docker and read this readme completely before start
-1. Unpack your sysroot in ``chr/sysroots/`` 
-2. Install additional toolchains in ``chr/toolchains/`` (except for gcc-5.4)
-3. Run 
+1. Clone this repo and `cd` into it.
+2. Unpack your sysroot in ``chr/sysroots/my_sysroot`` 
+3. Install additional toolchains in ``chr/toolchains/my_custom_toolchain`` 
+4. Run 
 
-        `./build.sh config_name build_name`
+       ./build.sh config_name build_name
 
     * First argument is dirname containing config (must not contain slashes)
-    * Second argument is output dirname. You can ommit it and in that case same value as ``config_name`` will be used.
+    * Second argument is output dirname (must not contain slashes). Subdirectory with this name will be created in `chr/chromium/src/out/`. You can ommit it and in that case same value as ``config_name`` will be used.
     
     Example:
 
-        `./build.sh 56-gcc5.4`
+        ./build.sh 56-gcc5.4
 
-4. After build finishes you can make archive with build result:
+5. After build finishes you can make archive with build result:
     
     ```
     cd chr/chromium/src/out/my_build_name
@@ -51,9 +52,9 @@
 # Notes and recommendations
     
 * For the docker image automated build is configured at https://hub.docker.com/r/comsgn/mipschrome/
-* Docker container runs as nonroot user "builder"(uid=1000). Thus it is recommended to clone repo and run all commands with host user having same uid value. Also you can create new user in image having desired uid.
+* Docker container runs as nonroot user `builder`(uid=1000). Thus it is recommended to clone repo and run all commands with host user having same uid value. Also you can create new user in image having desired uid.
 * Docker image is built with dependencies for 56.0.2924.122 version of chrome. It is sufficient for building chromium of 54-57 versions, but may require update for newer chromiums versions.
-* Docker image contains gcc-5.4 croos compilation toolchain. In order to build with other toolchains you must install them to ``chr/toolchains/``
+* Docker image already contains gcc-5.4 croos compilation toolchain. In order to build with other toolchains you must install them to ``chr/toolchains/``
 * Most of predefined configurations in ``chr/configs`` were tested with "baikal-rootfs-chromedeps" sysyroot that can be downloaded at [todo add link to ftp]
 * First time ``build.sh`` called it will automatically download chromium sources to ``chr/chromium/src``. Chromium repo have huge size(about 17GB), so it may take long time.
 

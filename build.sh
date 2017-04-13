@@ -1,9 +1,9 @@
 #!/bin/bash
 
 TOP="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "$TOP"
 
-IMAGE_NAME="comsgn/mipschrome:latest"
+IMAGE_NAME="comsgn/mipschrome"
+
 
 if [ ! -d chr/chromium/src ]; then
 	echo "Downloading chromium sources";
@@ -15,4 +15,4 @@ if [ -z `ls $TOP/chr/sysroots/` ]; then
 	exit 1;
 fi
 
-docker run -it --rm -v $TOP/chr:/chr $IMAGE_NAME /chr/buildchrome.sh "$@"
+#docker run -it --rm -v $TOP/chr:/chr $IMAGE_NAME /chr/buildchrome.sh configs/56-gcc4.9
