@@ -1,32 +1,58 @@
 #!/bin/bash
 set -exu
 
-CONFIG_DIR=$1
-source $CONFIG_DIR/vars.sh
+CONFIG_NAME="$1"
+CONFIG_DIR="/chr/configs/$CONFIG_NAME"
+BUILD_NAME="${2:-$CONFIG_NAME}"
 
+if [ ! -d $CONFIG_DIR ]; then
+	echo "Directory \"$CONFIG_DIR\" does not exists!";
+	exit 1;
+fi
+
+source $CONFIG_DIR/vars.sh
 cd $PATH_TO_CHROMIUM_SRC_DIR
 
-# Name of output directory
-BUILD_NAME="${BUILD_NAME:-$(basename $CONFIG_DIR)}"
-
-export PATH="$PATH_TO_TOOCHAIN_BIN_DIR:${PATH}"
+if [ -n "$PATH_TO_TOOCHAIN_BIN_DIR" ]; then
+	if [ -z `ls $PATH_TO_TOOCHAIN_BIN_DIR/mipsel-linux-gnu-gcc` ]; then
+		echo "Toolchain not found in $PATH_TO_TOOCHAIN_BIN_DIR";
+		exit 1;
+	fi
+	export PATH="$PATH_TO_TOOCHAIN_BIN_DIR:${PATH}";
+fi
 
 # Checkout necessary revision
 git checkout "$CHROMIUM_REVISION" -f
 git clean -df
+
+# Reset patches in webrtc if they were applied in previous builds
+pushd third_party/webrtc
+	git checkout HEAD -f
+popd
+
 gclient sync  --with_branch_heads
 
 # Apply patches
 for patchfile in $CONFIG_DIR/*.patch
 do
-	patch -p1 patchfile
+	echo "applying patch $patchfile";
+	patch -p1 < "$patchfile";
 done
+
+# Make symlink to sysroot
+ln -s $PATH_TO_SYSROOT_DIR build/linux/debian_wheezy_mips-sysroot
 
 # Prepare build configuration
 OUT_DIR="out/$BUILD_NAME"
+
+if [ -d $OUT_DIR ]; then
+	echo "Output directory \"$OUT_DIR\" already exsists. Remove it or rename the build";
+	exit 1;
+fi
+
 mkdir $OUT_DIR
-cp "$GN_ARGS_FILE_PATH" $OUT_DIR/args.gn
-gn gen "$OUT_DIR" 
+cp "$CONFIG_DIR/args.gn" $OUT_DIR/args.gn
+gn gen "$OUT_DIR"
 
 # Start build
 ninja -C $OUT_DIR chrome chrome_sandbox
