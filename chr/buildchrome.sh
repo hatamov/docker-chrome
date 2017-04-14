@@ -25,12 +25,7 @@ fi
 git checkout "$CHROMIUM_REVISION" -f
 git clean -dff
 
-# # Reset patches in webrtc if they were applied in previous builds
-# pushd third_party/webrtc
-# 	git checkout HEAD -f
-# popd
-
-gclient sync  --with_branch_heads --reset
+gclient sync  --with_branch_heads -RDf
 
 # Apply patches
 for patchfile in $CONFIG_DIR/*.patch

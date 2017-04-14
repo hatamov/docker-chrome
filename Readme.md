@@ -6,7 +6,7 @@
 ├── build.sh            # Main script to build chrome
 ├── chr                 # This dir will be attached as volume to the docker container
 │   ├── buildchrome.sh  # This script runs in container and automates build
-│   ├── chromium   
+│   ├── chromium        
 │   │   └── src         # Chromium source code 
 │   ├── configs         # Configs for building various versions of chrome
 │   │   ├── 56-gcc4.9   
@@ -21,7 +21,7 @@
 │       │── baikal-gcc5.2
 │       └── .....
 ├── docker_image
-│   └── Dockerfile      # Dockerfile for building docker image                  
+│   └── Dockerfile      # Dockerfile for building docker image 
 └── Readme.md
 ```
 
@@ -56,8 +56,6 @@
 * Docker image is built with dependencies for 56.0.2924.122 version of chrome. It is sufficient for building chromium of 54-57 versions, but may require update for newer chromiums versions.
 * Docker image already contains gcc-5.4 croos compilation toolchain. In order to build with other toolchains you must install them to ``chr/toolchains/``
 * Most of predefined configurations in ``chr/configs`` were tested with "baikal-rootfs-chromedeps" sysyroot that can be downloaded at [todo add link to ftp]
-* First time ``build.sh`` called it will automatically download chromium sources to ``chr/chromium/src``. Chromium repo have huge size(about 17GB), so it may take long time.
-
-
-
+* If directory `chr/chromium/src` missing, then ``build.sh`` will automatically clone chromium sources to ``chr/chromium/src``. Chromium repo have huge size(about 17GB), so it may take long time. If you already have chromium checkout you can manualy copy (or symlink) it to `chr/chromium`.
+* Note that build script automatically makes checkout to specified commit/tag and discards all uncommited cahnges and removes all untracked files/dirs, so be carefull!
 
