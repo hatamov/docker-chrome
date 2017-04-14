@@ -11,7 +11,7 @@ if [ ! -d chr/chromium/src ]; then
 fi
 
 if [ -z `ls $TOP/chr/sysroots/` ]; then
-	echo "Put sysroot to $TOP/sysroots/";
+	echo "Put sysroot to $TOP/chr/sysroots/";
 	exit 1;
 fi
 
